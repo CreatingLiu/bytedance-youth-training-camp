@@ -12,9 +12,9 @@
         price: { type: Sequelize.FLOAT, allowNull: false },
         stock: { type: Sequelize.INTEGER, defaultValue: 0 }
     })
-
+    console.log(Fruit.create)
     let ret = await Fruit.sync()
-
+    console.log(Fruit.create)
     await Fruit.create({
         name: "apple",
         price: 10
