@@ -22,6 +22,10 @@ http.createServer((request, response) => {
         })
     }
 
+    else if(method === "GET" && headers.accept.indexOf('image/*') !== -1) {
+        fs.createReadStream('.' + url).pipe(response);
+    }
+
     else {
         response.writeHead(404, {
             "Content-Type": "text/plain;charset=utf-8"
