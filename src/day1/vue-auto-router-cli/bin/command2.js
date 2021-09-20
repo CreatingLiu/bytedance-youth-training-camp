@@ -5,10 +5,9 @@ program.version(require('../package').version)
 program.command('init <name>')
     .description('init project')
     .action(require('../lib/init'))
-    // .action((name) => {
-    //     const init = require('../lib/init')
-    //     console.log(init)
-    // })
-    // .action(console.log)
+
+program.command('refresh')
+    .description('refresh routers')
+    .action(require('../lib/refresh'))
 
 program.parse(process.argv)
