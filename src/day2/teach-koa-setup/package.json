@@ -1,0 +1,20 @@
+{
+    "name": "teach-koa-setup",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "rm -rf ./project && node bin/index.js"
+    },
+
+    "bin": {
+        "teach-koa-setup": "./bin/index.js"
+    },
+
+    "dependencies": {
+        "ejs": "^3.1.6",
+        "execa": "^5.1.1",
+        "inquirer": "^8.1.5",
+        "prettier": "^2.4.1"
+    }
+}
