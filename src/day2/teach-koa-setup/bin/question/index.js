@@ -6,7 +6,8 @@ export async function question() {
         {
             type: "input",
             name: "packageName",
-            message: "set package name"
+            message: "set package name",
+            default: () => "project"
         },
         {
             type: "number",

@@ -22,10 +22,10 @@ fs.writeFileSync(getRootPath() + '/pacakge.json', createPackageTemplate(inputCon
 
 
 // TODO package
-// execa('npm i', {
-//     cwd: getRootPath(),
-//     stdio: [2, 2, 2]
-// })
+await execa('npm',['i'], {
+    cwd: getRootPath(),
+    stdio: [2, 2, 2]
+})
 
 
 function getRootPath() {

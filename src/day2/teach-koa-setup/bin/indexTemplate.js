@@ -10,5 +10,5 @@ export function createIndexTemplate(config) {
         middleware: config.middleware
     });
 
-    return prettier.format(code)
+    return code;
 }
