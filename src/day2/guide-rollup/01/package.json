@@ -1,5 +1,5 @@
 {
-  "name": "test-app-koa-1",
+  "name": "guide-rollup",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,11 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "koa": "^2.13.1",
-    "koa-body": "^4.2.0",
-    "koa-router": "^10.1.1",
-    "koa-static": "^5.0.0",
-    "koa-views": "^7.0.1",
-    "pug": "^3.0.2"
+    "rollup": "^2.56.3"
   }
 }
