@@ -5,10 +5,12 @@ import { Button, Col, Input, Menu, Row } from 'antd';
 import { OrderedListOutlined } from "@ant-design/icons";
 import AntDesignLogo from './AntDesignLogo';
 import phoneIcon from './phoneIcon.svg';
+import backgroundImage from './background.png';
 
 function App() {
 	return (
 		<div className="App">
+			<div className="background"><img src={backgroundImage} alt="" /></div>
 			<Row align="middle" gutter={16}>
 				<Col>
 					<h1>
@@ -34,7 +36,7 @@ function App() {
 					</Menu>
 				</Col>
 			</Row>
-			<Row justify="center">
+			<Row justify="center" style={{"marginTop": "120px"}}>
 				<Col>
 					<AntDesignLogo />
 				</Col>
@@ -42,10 +44,10 @@ function App() {
 			<Row justify="center" style={{"marginTop": "30px"}}>
 				企业级产品设计体系，创造高效愉悦的工作体验
 			</Row>
-			<Row justify='center' style={{"marginTop": "10px"}}>
+			<Row justify='center' style={{"marginTop": "10px"}} align='middle'>
 				<a href="/"><img src={phoneIcon} alt="" />4.0 正式版发布</a>
 			</Row>
-			<Row justify="center" gutter={50} style={{"marginTop": "80px"}}>
+			<Row justify="center" gutter={50} style={{"marginTop": "40px"}}>
 				<Col>
 					<Button type="primary" shape="round" size="large">开始使用</Button>
 				</Col>

@@ -22,3 +22,11 @@ Input {
   margin-left: 20px;
 }
 
+.background {
+  position: absolute;
+  width: 100vw
+}
+
+.background img {
+  width: 100%;
+}
