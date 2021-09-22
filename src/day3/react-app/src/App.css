@@ -1,0 +1,19 @@
+#logo img {
+  width: 32px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+#logo {
+  height: 64px;
+  padding-left: 40px;
+  overflow: hidden;
+  color: #000000d9;
+  font-weight: 700;
+  font-size: 18px;
+  font-family: PuHuiTi,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji,sans-serif;
+  line-height: 64px;
+  letter-spacing: -.18px;
+  white-space: nowrap;
+  text-decoration: none;
+}
