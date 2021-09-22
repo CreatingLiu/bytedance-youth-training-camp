@@ -12,8 +12,13 @@
   font-weight: 700;
   font-size: 18px;
   font-family: PuHuiTi,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji,sans-serif;
-  line-height: 64px;
   letter-spacing: -.18px;
   white-space: nowrap;
   text-decoration: none;
 }
+
+Input {
+  vertical-align: middle;
+  margin-left: 20px;
+}
+
