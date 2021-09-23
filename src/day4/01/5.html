@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #wrap {
+            width: 260px;
+            height: 50vh;
+
+            margin: 20vh auto;
+
+            border: 1px solid black;
+
+            overflow: hidden;
+        }
+
+        #list {
+            margin: 0;
+            padding: 10px;
+            list-style: none;
+            font: 16px/2;
+        }
+
+        #list li {
+            border-bottom: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <ul id=list>
+            
+        </ul>
+    </div>
+    <script>
+        let list = document.getElementById('list');
+        list.innerHTML = [...('.'.repeat(100))].map((item, index) => `<li>这是第${index}个li</li>`).join("");
+        for(let i = 0; i < list.children.length; i++) {
+            list.children[i].addEventListener('touchend', ()=>{
+                console.log(i)
+            })
+        }
+    </script>
+
+    <script>
+        list = document.getElementById('list');
+        let startPoint = 0;
+        let startEl = 0;
+
+        let move = e => {
+            let touch = e.changedTouches[0];
+            let nowPoint = touch.clientY;
+            y = startEl + (nowPoint - startPoint);
+            list.style.transform = `translate3d(0, ${y}px, 0)`
+        }
+
+        list.addEventListener("mousedown", (e) => {
+            let touch = e.changedTouches[0];
+            startPoint = touch.clientY;
+            startEl = y;
+            document.addEventListener("mousemove", move);
+        });
+    </script>
+</body>
+</html>
