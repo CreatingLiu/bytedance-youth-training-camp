@@ -91,7 +91,6 @@ function enableGesture(element) {
             clientX: event.clientX,
             clientY: event.clientY
         }));
-        
     }
 
     let onEnd = (event, contexts) => {
