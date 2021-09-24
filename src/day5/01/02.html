@@ -1,0 +1,42 @@
+<id id="app">{{title}}</id>
+
+<script>
+    const Vue = {
+        createApp(options) {
+            return {
+                mount(selector) {
+                    const parent = document.querySelector(selector);
+
+                    if(!options.render) {
+                        options.render = this.compile(parent.innerHTML);
+                    }
+
+                    const el = options.render.call(options.data());
+
+                    parent.innerHTML = '';
+                    parent.appendChild(el);
+                },
+
+                compile(template) {
+                    return function render() {
+                        const h3 = document.createElement('h3');
+                        h3.textContent = this.title;
+                        return h3;
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: "hello vue"
+            }
+        }
+    })
+    app.mount('#app')
+</script>
+

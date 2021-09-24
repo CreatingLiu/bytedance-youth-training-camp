@@ -3,11 +3,29 @@
 <script src="http://unpkg.com/vue@next"></script>
 
 <script>
+    // const renderer = Vue.createRenderer({
+    //     querySelector(){},
+    //     createElement(){}
+    // })
+    // renderer.createApp({})
+
     const app = Vue.createApp({
         data() {
             return {
                 title: "hello vue"
             }
+        },
+        setup() {
+            const state = Vue.reactive({
+                title: 'vue3 hello'
+            })
+            return state
+        },
+        render() {
+            return Vue.h('div', {
+                title: '',
+
+            }, 'xxx');
         }
     })
     app.mount('#app')
