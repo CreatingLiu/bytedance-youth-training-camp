@@ -11,7 +11,34 @@
                         options.render = this.compile(parent.innerHTML);
                     }
 
-                    const el = options.render.call(options.data());
+                    if(options.setup) {
+                        this.setupState = options.setup();
+                    }
+                    
+                    if(options.data) {
+                        this.dataState = options.data();
+                    }
+
+                    const proxy = new Proxy(this, {
+                        get(target, key) {
+                            if(target.setupState && key in target.setupState) {
+                                return target.setupState[key]
+                            } 
+                            else {
+                                return target.data[key]
+                            }
+                        },
+                        set(target, key, val) {
+                            if(target.setupState && key in target.setupState) {
+                                target.setupState[key] = val;
+                            }
+                            else {
+                                target.data[key] = val;
+                            }
+                        }
+                    })
+
+                    const el = options.render.call(proxy);
 
                     parent.innerHTML = '';
                     parent.appendChild(el);
@@ -34,6 +61,11 @@
         data() {
             return {
                 title: "hello vue"
+            }
+        },
+        setup() {
+            return {
+                title: 'hello vue (setup)'
             }
         }
     })
