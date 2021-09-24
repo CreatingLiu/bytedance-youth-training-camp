@@ -1,10 +1,72 @@
 <div id="app">{{title}}</div>
 
 <script>
+function reactive(obj) {
+    return new Proxy(obj, {
+        get(target, key) {
+            console.log("get key:" + key);
+            track(target, key);
+            return target[key];
+        },
+        set(target, key, val) {
+            console.log("set key:" + key);
+            trigger(target, key);
+            target[key] = val;
+        }
+    })
+}
 
+const effectStack = []
+
+function effect(fn) {
+    const eff = function() {
+        try {
+            effectStack.push(eff);
+            fn();
+        }
+        finally {
+            effectStack.pop()
+        }
+    }
+    eff()
+    
+    return eff
+}
+
+const targetMap = {}
+
+function track(target, key) {
+    const effect = effectStack[effectStack.length - 1];
+    
+    let map = targetMap[target]
+    if(!map) {
+        map = targetMap[target] = {}
+    }
+
+    let deps = map[key];
+    if(!deps) {
+        deps = targetMap[target][key] = new Set()
+    }
+
+    deps.add(effect)
+}
+
+function trigger(target, key) {
+    const map = targetMap[target];
+
+    const deps = map[key]
+
+    deps.forEach(dep => dep());
+}
+
+function h(tag, props, children) {
+    return {
+        tag, props, children
+    }
+}
 
 const Vue = {
-    createRenderer({querySelector, insert}) {
+    createRenderer({querySelector, insert, createElement}) {
         return {
             createApp(options) {
                 return {
@@ -23,7 +85,7 @@ const Vue = {
                             this.data = options.data();
                         }
 
-                        this.update = function() {
+                        const update = (() => {
                             const proxy = new Proxy(this, {
                                 get(target, key) {
                                     if (target.setupState && key in target.setupState) {
@@ -43,19 +105,47 @@ const Vue = {
                                 }
                             })
     
-                            const el = options.render.call(proxy);
-    
-                            insert(el, parent);
-                        }
+                            const vnode = options.render.call(proxy);
+                            // insert(el, parent);
+                            if(!this.isMountd) {
+                                const el = this.createElm(vnode)
+                                parent.innerHTML = ''
+                                insert(el, parent)
+                                this.isMountd = true;
+                            }
+                            else {
+                                // TODO
+                            }
+                        }).bind(this)
+
+                        this.update = effect(update)
 
                         this.update()
                     },
 
+                    createElm({tag, props, children}) {
+                        const el = createElement(tag)
+                        if(typeof children === 'string') {
+                            el.textContent = children
+                        }
+                        else {
+                            children.forEach(child => {insert(this.createElm(child), el);});
+                        }
+                        console.log(el)
+                        return el;
+                    },
+
                     compile(template) {
                         return function render() {
-                            const h3 = document.createElement('h3');
-                            h3.textContent = this.title;
-                            return h3;
+                            // const h3 = document.createElement('h3');
+                            // h3.textContent = this.title;
+                            // return h3;
+                            console.log(this.title)
+                            // return h('h3', null, this.title)
+                            return h('h3', null, [
+                                h('p', null, this.title),
+                                h('p', null, 'p2')
+                            ])
                         }
                     }
                 }
@@ -71,8 +161,11 @@ const Vue = {
             },
 
             insert(el, parent) {
-                parent.innerHTML = '';
                 parent.appendChild(el);
+            },
+
+            createElement(tag) {
+                return document.createElement(tag);
             }
         })
         return renderer.createApp(options);
@@ -82,19 +175,6 @@ const Vue = {
 
 <script>
 
-function reactive(obj) {
-    return new Proxy(obj, {
-        get(target, key) {
-            console.log("get key:" + key);
-            return target[key];
-        },
-        set(target, key, val) {
-            console.log("set key:" + key);
-            target[key] = val;
-            app.update()
-        }
-    })
-}
 
 let i = 0;
 
