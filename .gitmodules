@@ -1,0 +1,6 @@
+[submodule "bytedance_always_right"]
+	path = bytedance_always_right
+	url = https://gitee.com/craipy/bytedance_always_right.git
+[submodule "bytedance-final-api"]
+	path = bytedance-final-api
+	url = https://gitee.com/csh2020/bytedance-final-api.git

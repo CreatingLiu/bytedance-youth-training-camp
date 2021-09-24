@@ -52,11 +52,16 @@ function track(target, key) {
 }
 
 function trigger(target, key) {
-    const map = targetMap[target];
-
-    const deps = map[key]
-
-    deps.forEach(dep => dep());
+    try {
+        const map = targetMap[target];
+    
+        const deps = map[key]
+    
+        deps.forEach(dep => dep());
+    }
+    catch {
+        
+    }
 }
 
 function h(tag, props, children) {
@@ -140,10 +145,9 @@ const Vue = {
                             // const h3 = document.createElement('h3');
                             // h3.textContent = this.title;
                             // return h3;
-                            console.log(this.title)
                             // return h('h3', null, this.title)
                             return h('h3', null, [
-                                h('p', null, this.title),
+                                // h('p', null, this.title),
                                 h('p', null, 'p2')
                             ])
                         }
