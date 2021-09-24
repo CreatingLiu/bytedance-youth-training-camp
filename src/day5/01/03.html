@@ -1,0 +1,117 @@
+<div id="app">{{title}}</div>
+
+<script>
+
+
+const Vue = {
+    createRenderer({querySelector, insert}) {
+        return {
+            createApp(options) {
+                return {
+                    mount(selector) {
+                        const parent = querySelector(selector);
+
+                        if (!options.render) {
+                            options.render = this.compile(parent.innerHTML);
+                        }
+
+                        if (options.setup) {
+                            this.setupState = options.setup();
+                        }
+
+                        if (options.data) {
+                            this.data = options.data();
+                        }
+
+                        this.update = function() {
+                            const proxy = new Proxy(this, {
+                                get(target, key) {
+                                    if (target.setupState && key in target.setupState) {
+                                        return target.setupState[key]
+                                    }
+                                    else {
+                                        return target.data[key]
+                                    }
+                                },
+                                set(target, key, val) {
+                                    if (target.setupState && key in target.setupState) {
+                                        target.setupState[key] = val;
+                                    }
+                                    else {
+                                        target.data[key] = val;
+                                    }
+                                }
+                            })
+    
+                            const el = options.render.call(proxy);
+    
+                            insert(el, parent);
+                        }
+
+                        this.update()
+                    },
+
+                    compile(template) {
+                        return function render() {
+                            const h3 = document.createElement('h3');
+                            h3.textContent = this.title;
+                            return h3;
+                        }
+                    }
+                }
+            }
+
+        }
+    },
+
+    createApp (options) {
+        const renderer = Vue.createRenderer({
+            querySelector(sel) {
+                return document.querySelector(sel);
+            },
+
+            insert(el, parent) {
+                parent.innerHTML = '';
+                parent.appendChild(el);
+            }
+        })
+        return renderer.createApp(options);
+    }
+}
+</script>
+
+<script>
+
+function reactive(obj) {
+    return new Proxy(obj, {
+        get(target, key) {
+            console.log("get key:" + key);
+            return target[key];
+        },
+        set(target, key, val) {
+            console.log("set key:" + key);
+            target[key] = val;
+            app.update()
+        }
+    })
+}
+
+let i = 0;
+
+const app = Vue.createApp({
+    setup() {
+        const state = reactive({
+            title: 'vue3, hello'
+        })
+        setInterval(() => {
+            state.title = 'hello, vue3 timer:' + i;
+            i++;
+        }, 1000)
+        // setTimeout(() => {
+        //     state.title = 'hello, vue3'
+        // }, 1000);
+        return state
+    }
+})
+app.mount('#app')
+</script>
